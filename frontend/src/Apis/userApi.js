@@ -4,8 +4,6 @@ const API = axios.create({
 	baseURL: 'https://smartshopping-27iu.onrender.com/'
 })
 
-// const API = axios.create({ baseURL: 'https://account-back-4krv.onrender.com' })
-
 // export const getUser = (userId) => API.get(`user/${userId}`);
 
 export const createCustomer = formData => API.post('/user/createUser', formData)

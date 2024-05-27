@@ -1,37 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import {
-	Row,
-	Col,
-	Image,
-	ListGroup,
-	Card,
-	Button,
-	FormControl,
-	Form
-} from 'react-bootstrap'
+import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
 import Rating from '../Components/Rating'
 import Loading from '../Components/Loading'
-import { useDispatch, useSelector } from 'react-redux'
-import { getProducts } from '../Actions/productAction'
+
+import { useGetProductQuery } from '../store/productApiSlice'
+import { useDispatch } from 'react-redux'
+import { addToCart } from './../store/cartSlice'
 
 const ProductDetails = () => {
 	const params = useParams()
-	const id = params.id
-	const dispatch = useDispatch()
+	const id = params?.id
+
+	const { data: product, isLoading, error } = useGetProductQuery(id)
+
 	const navigate = useNavigate()
 	const [qty, setQty] = useState(1)
-
-	useEffect(() => {
-		dispatch(getProducts())
-	}, [dispatch])
-
-	const products = useSelector(state => state.product.products)
-	const loading = useSelector(state => state.product.loading)
-
-	const product = products?.find(product => product._id === id)
+	const dispatch = useDispatch()
 
 	const addToCardHandler = () => {
+		dispatch(addToCart({ ...product, qty }))
 		navigate('/cart')
 	}
 
@@ -40,12 +28,12 @@ const ProductDetails = () => {
 			<Link className="btn btn-success my-2" to="/">
 				Back
 			</Link>
-			{loading && (
+			{isLoading && (
 				<Row>
 					<Loading />
 				</Row>
 			)}
-			{!loading && (
+			{!isLoading && (
 				<Row>
 					<Col md={5}>
 						<Image src={product?.image} alt={product?.name} fluid />

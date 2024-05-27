@@ -1,30 +1,25 @@
 import React, { useEffect } from 'react'
 // import products from './../../products'
 import { Col, Row } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
+
 import Product from '../../Components/Product/Product'
 import Loading from '../../Components/Loading'
-import { getProducts } from '../../Actions/productAction'
+
+import { useGetProductsQuery } from '../../store/productApiSlice'
 
 const Home = () => {
-	const products = useSelector(state => state.product.products)
-	const loading = useSelector(state => state.product.loading)
-	const dispatch = useDispatch()
-
-	useEffect(() => {
-		dispatch(getProducts())
-	}, [dispatch])
+	const { data: data, isLoading, error } = useGetProductsQuery()
 
 	return (
 		<>
-			{loading && (
+			{isLoading && (
 				<Row>
 					<Loading />
 				</Row>
 			)}
-			{!loading && (
+			{!isLoading && (
 				<Row>
-					{products.map(product => (
+					{data.products.map(product => (
 						<Col sm={12} md={6} lg={4} xl={3} key={product}>
 							<Product product={product} />
 						</Col>

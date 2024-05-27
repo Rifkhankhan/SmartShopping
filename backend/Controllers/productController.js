@@ -1,10 +1,10 @@
+const generateToken = require('../Utils/generateToken')
 const asyncHandler = require('./../Middleware/asyncHandler')
 const Product = require('./../Models/ProductModel')
 
 exports.getProducts = asyncHandler(async (req, res, next) => {
 	try {
 		const products = await Product.find({})
-
 		res.status(200).json({ success: true, products: products })
 	} catch (error) {
 		res.status(404)
@@ -14,6 +14,7 @@ exports.getProducts = asyncHandler(async (req, res, next) => {
 
 exports.getProduct = asyncHandler(async (req, res, next) => {
 	try {
+		console.log(req.params)
 		const product = await Product.findById(req.params.id)
 
 		res.status(200).json(product)

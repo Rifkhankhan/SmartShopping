@@ -5,7 +5,7 @@ const { products } = require('./data/products')
 const { connectDB } = require('./config/db')
 const path = require('path')
 const cors = require('cors')
-
+const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 
 const { notFound, errorHandler } = require('./Middleware/errorMiddleware')
@@ -15,16 +15,24 @@ dotenv.config()
 // get routes
 
 const productRoute = require('./Router/productRouter')
+const userRouter = require('./Router/userRouter')
 
 const app = express()
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(cors())
+
+//  middleware => then only we can get data from frontend
 app.use(express.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+
+// cookie-parser middleware
+app.use(cookieParser())
+
+app.use(bodyParser.json())
+app.use(cors())
 
 connectDB()
 
 app.use('/products', productRoute)
+app.use('/users', userRouter)
 
 // deoploy things
 if (process.env.NODE_ENV === 'production') {
