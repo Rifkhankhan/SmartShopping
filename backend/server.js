@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // CORS configuration
 const corsOptions = {
-	origin: 'https://smartshopping-27iu.onrender.com/', // Your frontend URL
+	origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '', // Your frontend URL
 	credentials: true, // Allow credentials (cookies)
 	optionsSuccessStatus: 200
 }
@@ -58,10 +58,6 @@ app.use((req, res, next) => {
 	next(error)
 })
 
-// Error handling middleware
-app.use(notFound)
-app.use(errorHandler)
-
 const port = process.env.PORT || 5000
 
 // Deployment settings
@@ -86,3 +82,7 @@ app.listen(port, () =>
 		`Server is running in ${process.env.NODE_ENV} mode on port ${port}`
 	)
 )
+
+// Error handling middleware
+app.use(notFound)
+app.use(errorHandler)
