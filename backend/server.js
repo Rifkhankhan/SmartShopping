@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // CORS configuration
 const corsOptions = {
-	origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '', // Your frontend URL
+	origin: process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '', // Your frontend URL
 	credentials: true, // Allow credentials (cookies)
 	optionsSuccessStatus: 200
 }
@@ -52,11 +52,11 @@ app.get('/config/paypal', (req, res) => {
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 // Catch-all to handle 404 errors
-app.use((req, res, next) => {
-	const error = new Error('Not Found')
-	error.status = 404
-	next(error)
-})
+// app.use((req, res, next) => {
+// 	const error = new Error('Not Found')
+// 	error.status = 404
+// 	next(error)
+// })
 
 const port = process.env.PORT || 5000
 
