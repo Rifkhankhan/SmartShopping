@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // CORS configuration
 const corsOptions = {
-	origin: 'http://localhost:3000', // Your frontend URL
+	origin: 'https://smartshopping-27iu.onrender.com/', // Your frontend URL
 	credentials: true, // Allow credentials (cookies)
 	optionsSuccessStatus: 200
 }
