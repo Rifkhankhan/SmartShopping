@@ -6,7 +6,9 @@ const cardSlice = createSlice({
 
 	initialState: {
 		cardItems: [],
-		itemsPrice: 0
+		itemsPrice: 0,
+		paymentMethod: 'PayPal',
+		shippingAddress: {}
 	},
 	reducers: {
 		addToCart: (state, action) => {
@@ -30,10 +32,25 @@ const cardSlice = createSlice({
 			if (existItem) {
 				state.cardItems = state.cardItems.filter(cart => cart._id !== item)
 			}
+		},
+		saveShippingAddresss: (state, action) => {
+			state.shippingAddress = action.payload
+		},
+		savePaymentMethode: (state, action) => {
+			state.paymentMethod = action.payload
+		},
+		clearCartItems: (state, action) => {
+			state.cardItems = []
 		}
 	}
 })
 
-export const { addToCart, removeFromCart } = cardSlice.actions
+export const {
+	addToCart,
+	removeFromCart,
+	saveShippingAddresss,
+	savePaymentMethode,
+	clearCartItems
+} = cardSlice.actions
 
 export default cardSlice.reducer

@@ -25,21 +25,22 @@ const orderSchema = new Schema(
 		shippingAddress: [
 			{
 				address: { type: String, required: true },
-				city: { type: Number, required: true },
-				postalcode: { type: String, required: true },
-				country: { type: Number, required: true }
+				city: { type: String, required: true },
+				postalCode: { type: String, required: true },
+				country: { type: String, required: true }
 			}
 		],
-		paymentMethodes: {
-			type: String,
-			required: true
-		},
 		paymentResult: {
 			id: { type: String },
 			status: { type: String },
 			update_time: { type: String },
-			email: { type: String }
+			email_address: { type: String }
 		},
+		paymentMethod: {
+			type: String,
+			required: true
+		},
+
 		itemsPrice: {
 			type: Number,
 			required: true,
@@ -47,22 +48,22 @@ const orderSchema = new Schema(
 		},
 		taxPrice: {
 			type: Number,
-			required: true,
+			required: false, // true
 			default: 0.0
 		},
 		shippingPrice: {
 			type: Number,
-			required: true,
+			required: false, // true
 			default: 0.0
 		},
 		totalPrice: {
 			type: Number,
-			required: true,
+			required: false, // true
 			default: 0.0
 		},
 		isPaid: {
 			type: Boolean,
-			required: true,
+			required: false, // true
 			default: false
 		},
 		paidAt: {
@@ -72,6 +73,9 @@ const orderSchema = new Schema(
 			type: Boolean,
 			required: true,
 			default: false
+		},
+		deliveredAt: {
+			type: Date
 		}
 	},
 	{

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useLogoutMutation } from '../../store/userApiSlice'
 import { logout } from './../../store/authSlice'
+import SearchBox from '../SearchBox'
 const Header = () => {
 	const cardItems = useSelector(state => state.cart.cardItems)
 	const { userInfo } = useSelector(state => state.auth)
@@ -29,6 +30,7 @@ const Header = () => {
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse id="basic-navbar-nav">
 						<Nav className="ms-auto">
+							<SearchBox />
 							<LinkContainer to="/cart">
 								<Nav.Link href="/" className="text-light">
 									<FaShoppingCart /> Cart
@@ -38,12 +40,26 @@ const Header = () => {
 								</Nav.Link>
 							</LinkContainer>
 							{userInfo ? (
-								<NavDropdown title="Rifkhan" id="username">
+								<NavDropdown title={userInfo.name} id="username">
 									<LinkContainer to="/profile" className="text-light">
 										<NavDropdown.Item className="text-dark">
 											Profile
 										</NavDropdown.Item>
 									</LinkContainer>
+									{userInfo.isAdmin && (
+										<LinkContainer to="/admin/orders" className="text-light">
+											<NavDropdown.Item className="text-dark">
+												Orders
+											</NavDropdown.Item>
+										</LinkContainer>
+									)}
+									{userInfo.isAdmin && (
+										<LinkContainer to="/admin/products" className="text-light">
+											<NavDropdown.Item className="text-dark">
+												Products
+											</NavDropdown.Item>
+										</LinkContainer>
+									)}
 									<LinkContainer to="/" className="text-light">
 										<NavDropdown.Item
 											className="text-dark"

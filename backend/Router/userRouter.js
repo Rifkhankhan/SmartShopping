@@ -16,16 +16,17 @@ const { protect, admin } = require('./../Middleware/authMiddlewate')
 const router = express.Router()
 
 router.route('/').get(protect, admin, getUsers).post(registerUser)
-router.post('/logout', logoutUser)
+router.post('/logout', protect, logoutUser)
 router.post('/login', authUser)
 
 router
-	.route('/:id')
+	.route('/admin/:id')
 	.get(protect, admin, getUser)
 	.put(protect, admin, updateUser)
 	.delete(protect, admin, deleteUser)
+
 router
-	.route('/profile/:id')
+	.route('/profile')
 	.get(protect, getUserProfile)
 	.put(protect, updateUserProfile)
 

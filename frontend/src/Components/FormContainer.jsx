@@ -1,13 +1,11 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 
-const FormContainer = ({ children }) => {
+const FormContainer = ({ children, md }) => {
 	return (
 		<Container className="my-auto">
-			<Row className="justify-content-md-center align-items-md-center">
-				<Col xs={12} md={6}>
-					{children}
-				</Col>
+			<Row className="justify-content-md-center ">
+				<Col md={12}>{children}</Col>
 			</Row>
 		</Container>
 	)

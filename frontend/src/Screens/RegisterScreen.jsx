@@ -1,17 +1,47 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Col, Form, Row } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
-
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { setCredential } from '../store/authSlice'
 import FormContainer from '../Components/FormContainer'
+import Loading from './../Components/Loading'
+import { useRegisterMutation } from './../store/userApiSlice'
+
+import { toast } from 'react-toastify'
 
 const RegisterScreen = () => {
 	const [email, setEmail] = useState()
 	const [name, setName] = useState()
 	const [password, setPassword] = useState()
+	const navigate = useNavigate()
+	const dispatch = useDispatch()
+	const { userInfo } = useSelector(state => state.auth)
 
-	const submitHandler = e => {
+	const [register, { isLoading }] = useRegisterMutation()
+
+	const { search } = useLocation()
+	const searchParams = new URLSearchParams(search)
+	const redirect = searchParams.get('redirect') || '/'
+
+	useEffect(() => {
+		if (userInfo) {
+			navigate(redirect)
+		}
+	}, [redirect, navigate, userInfo])
+
+	const submitHandler = async e => {
 		e.preventDefault()
+
+		try {
+			const response = await register({ name, email, password }).unwrap()
+			console.log(response)
+			dispatch(setCredential({ ...response }))
+			navigate(redirect)
+		} catch (error) {
+			toast.error(error?.data.message || error?.error)
+		}
 	}
+
 	return (
 		<FormContainer>
 			<h1>Register Account</h1>
@@ -50,11 +80,16 @@ const RegisterScreen = () => {
 						Register
 					</Button>
 				</Form.Group>
+
+				{isLoading && <Loading />}
 			</Form>
 
 			<Row className="py-3">
 				<Col sx={12} md={6}>
-					Already Have Account ? <Link to="/login">Sign In</Link>
+					Already Have Account ?{' '}
+					<Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>
+						Sign In
+					</Link>
 				</Col>
 			</Row>
 		</FormContainer>
