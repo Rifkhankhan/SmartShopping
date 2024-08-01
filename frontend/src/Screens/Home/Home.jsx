@@ -16,7 +16,6 @@ import ProductsCrousel from '../../Components/ProductsCrousel'
 
 const Home = () => {
 	const { keyword, pageNumber } = useParams()
-	const { userInfo } = useSelector(state => state.auth)
 
 	const { data, isLoading, error } = useGetProductsQuery({
 		keyword,

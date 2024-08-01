@@ -2,6 +2,7 @@ const asyncHandler = require('./../Middleware/asyncHandler')
 const Product = require('./../Models/ProductModel')
 
 exports.getProducts = asyncHandler(async (req, res, next) => {
+	console.log('get Products')
 	try {
 		const pageSize = 8
 		const page = Number(req.query.pageNumber) || 1
